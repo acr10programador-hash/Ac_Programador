@@ -14,7 +14,7 @@ class FramePlayer extends HTMLElement {
     this._wrapper.appendChild(this._loader);
 
     const style = document.createElement('style');
-    style.textContent = `:host{display:block;position:fixed;inset:0;width:100vw;height:100vh;z-index:-9999;pointer-events:none} .frame-player-wrapper{position:absolute;inset:0;width:100%;height:100%;overflow:hidden} canvas{display:block;width:100%;height:100%} .fp-loader{position:absolute;left:12px;top:12px;background:rgba(0,0,0,0.6);color:#fff;padding:6px 8px;border-radius:6px;font-size:13px}`;
+    style.textContent = `:host{display:block;position:fixed;inset:0;width:100%;height:100vh;height:100dvh;z-index:-9999;pointer-events:none;overflow:hidden} .frame-player-wrapper{position:absolute;inset:0;width:100%;height:100%;overflow:hidden} canvas{display:block;width:100%;height:100%} .fp-loader{position:absolute;left:12px;top:12px;background:rgba(0,0,0,0.6);color:#fff;padding:6px 8px;border-radius:6px;font-size:13px}`;
     this._shadow.appendChild(style);
     this._shadow.appendChild(this._wrapper);
 

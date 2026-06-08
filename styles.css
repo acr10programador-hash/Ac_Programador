@@ -5,6 +5,8 @@
 	--glass: rgba(255,255,255,0.06);
 }
 *{box-sizing:border-box}
+html{width:100%;overflow-x:hidden}
+body{min-width:0;width:100%;overflow-x:hidden}
 html,body{height:100%;margin:0;font-family:Inter, Poppins, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;color:#fff;background:transparent !important}
 header{padding:0}
 .player-section{display:flex;justify-content:center;padding:24px}
@@ -21,7 +23,7 @@ header{padding:0}
 
 /* Hacer que el componente actúe como fondo fullscreen (solo 1 regla) */
 /* frame-player como fondo: z-index 0 (debajo de TODO) */
-frame-player{position:fixed;inset:0;z-index:0;pointer-events:none;display:block;width:100vw;height:100vh}
+frame-player{position:fixed;inset:0;z-index:0;pointer-events:none;display:block;width:100%;height:100vh}
 main{position:relative;z-index:2;background:transparent !important}
 header{background:transparent;backdrop-filter:none}
 
@@ -84,7 +86,7 @@ header, header h1, header p, .content, .content h2, .content p{color:#fff}
 .logo{width:44px;height:44px;display:block;object-fit:cover;border-radius:12px;border:1px solid rgba(255,255,255,0.18);box-shadow:0 4px 16px rgba(0,0,0,0.32)}
 .brand-text{color:#fff;font-weight:700;font-size:16px;text-shadow:0 2px 6px rgba(0,0,0,0.5)}
 .brand-text small{display:block;font-size:11px;opacity:1;font-weight:600;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.5)}
-.nav-links{list-style:none;margin:0;padding:0;display:flex;gap:24px;align-items:center;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
+.nav-links{list-style:none;margin:0;padding:0;display:flex;gap:24px;align-items:center;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);min-width:0;max-width:100%}
 .nav-links a{color:#fff;text-decoration:none;padding:8px 12px;border-radius:8px;font-weight:600;font-size:14px;text-shadow:0 2px 6px rgba(0,0,0,0.5)}
 .nav-links a.active{position:relative;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,0.5)}
 .nav-links a.active::after{content:"";position:absolute;left:8px;right:8px;bottom:-16px;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:3px;box-shadow:0 4px 16px rgba(124,77,255,0.25)}
@@ -99,7 +101,7 @@ header, header h1, header p, .content, .content h2, .content p{color:#fff}
 .hero-inner{padding:120px 0 40px}
 .hero-content{max-width:900px}
 .eyebrow{display:inline-block;background:rgba(255,255,255,0.04);padding:6px 10px;border-radius:999px;font-size:12px;margin-bottom:12px}
-.hero h1{font-size:64px;line-height:1;margin:6px 0 12px;font-family:Poppins, Inter, sans-serif}
+.hero h1{font-size:64px;line-height:1;margin:6px 0 12px;font-family:Poppins, Inter, sans-serif;overflow-wrap:break-word}
 .hero h1 .accent{background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent}
 .lead{color:rgba(255,255,255,0.9);max-width:760px;font-size:18px}
 .hero-cta{display:flex;gap:12px;margin-top:18px}
@@ -188,7 +190,8 @@ header, header h1, header p, .content, .content h2, .content p{color:#fff}
 }
 
 @media (max-width:800px){
-	.nav{top:10px;left:10px;right:10px;width:auto;max-width:none;transform:none;padding:10px 12px;border-radius:16px}
+	.container{padding:0 16px}
+	.nav{top:10px;left:10px;right:10px;width:auto;max-width:calc(100vw - 20px);transform:none;padding:10px 12px;border-radius:16px}
 	.nav .nav-inner{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center}
 	.nav-left{min-width:0}
 	.brand{gap:10px;min-width:0}
@@ -197,11 +200,15 @@ header, header h1, header p, .content, .content h2, .content p{color:#fff}
 	.brand-text small{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px}
 	.nav-right{margin-left:0;justify-content:flex-end}
 	.btn.cta{padding:9px 12px;border-radius:10px;font-size:13px}
-	.nav-links{display:flex;position:static;grid-column:1 / -1;width:100%;transform:none;overflow-x:auto;gap:8px;padding:8px 2px 2px;scrollbar-width:none}
+	.nav-links{display:flex;position:static;grid-column:1 / -1;width:100%;min-width:0;max-width:100%;transform:none;overflow-x:auto;gap:8px;padding:8px 2px 2px;scrollbar-width:none}
 	.nav-links::-webkit-scrollbar{display:none}
 	.nav-links a{white-space:nowrap;padding:8px 10px;background:rgba(255,255,255,0.06);font-size:13px}
 	.nav-links a.active::after{left:10px;right:10px;bottom:-3px;height:2px}
-	.hero h1{font-size:30px}
+	.hero h1{font-size:clamp(25px, 8vw, 32px);line-height:1.08}
+	.hero h1 br{display:none}
+	.lead{font-size:16px}
+	.hero-cta{flex-wrap:wrap}
+	.hero-cta .btn{flex:1 1 150px;text-align:center}
 	.hero-inner{padding:150px 0 70px}
 	.badges{flex-direction:column;gap:12px}
 	.badge{min-width:unset;width:100%}
@@ -216,11 +223,13 @@ header, header h1, header p, .content, .content h2, .content p{color:#fff}
 }
 
 @media (max-width:420px){
-	.nav{left:8px;right:8px;padding:9px 10px}
+	.container{padding:0 14px}
+	.nav{left:8px;right:8px;max-width:calc(100vw - 16px);padding:9px 10px}
 	.logo{width:34px;height:34px;flex-basis:34px}
 	.brand-text{font-size:13px}
 	.brand-text small{max-width:118px}
 	.btn.cta{padding:8px 10px;font-size:12px}
 	.cta-icon{display:none}
 	.hero-inner{padding-top:142px}
+	.hero-panel{padding:18px}
 }
