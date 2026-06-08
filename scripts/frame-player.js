@@ -22,8 +22,10 @@ class FramePlayer extends HTMLElement {
     this._loaded = new Set();
     this._lastDrawn = -1;
     this._ticking = false;
+    this._rafId = 0;
     this._onScroll = this._onScroll.bind(this);
     this._onResize = this._onResize.bind(this);
+    this._animate = this._animate.bind(this);
   }
 
   connectedCallback(){
@@ -44,15 +46,19 @@ class FramePlayer extends HTMLElement {
     this._preloadInitial(6);
 
     window.addEventListener('scroll', this._onScroll, {passive:true});
+    document.addEventListener('scroll', this._onScroll, {passive:true});
     window.addEventListener('resize', this._onResize);
 
     // draw current frame based on scroll
     this._onScroll();
+    this._animate();
   }
 
   disconnectedCallback(){
     window.removeEventListener('scroll', this._onScroll);
+    document.removeEventListener('scroll', this._onScroll);
     window.removeEventListener('resize', this._onResize);
+    if(this._rafId) cancelAnimationFrame(this._rafId);
   }
 
   _resizeCanvas(){
@@ -68,10 +74,22 @@ class FramePlayer extends HTMLElement {
   }
 
   _indexForScroll(){
-    const rect = this.getBoundingClientRect();
     // Map the document scroll progress to frames (global progress)
-    const scrollY = window.scrollY || window.pageYOffset;
-    const maxScroll = document.body.scrollHeight - window.innerHeight;
+    const doc = document.documentElement;
+    const body = document.body;
+    const scrollingElement = document.scrollingElement || doc;
+    const scrollY = scrollingElement.scrollTop || window.scrollY || window.pageYOffset || doc.scrollTop || body.scrollTop || 0;
+    const documentHeight = Math.max(
+      scrollingElement.scrollHeight,
+      body.scrollHeight,
+      doc.scrollHeight,
+      body.offsetHeight,
+      doc.offsetHeight,
+      body.clientHeight,
+      doc.clientHeight
+    );
+    const viewportHeight = window.innerHeight || doc.clientHeight;
+    const maxScroll = documentHeight - viewportHeight;
     const progress = maxScroll <= 0 ? 0 : Math.min(1, Math.max(0, scrollY / maxScroll));
     const idx = Math.floor(progress * (this.count - 1));
     return idx;
@@ -81,13 +99,22 @@ class FramePlayer extends HTMLElement {
     if(this._ticking) return;
     this._ticking = true;
     requestAnimationFrame(()=>{
-      const idx = this._indexForScroll();
-      if(idx !== this._lastDrawn){
-        this._lastDrawn = idx;
-        this._showFrame(idx);
-      }
+      this._updateFrame();
       this._ticking = false;
     });
+  }
+
+  _animate(){
+    this._updateFrame();
+    this._rafId = requestAnimationFrame(this._animate);
+  }
+
+  _updateFrame(){
+    const idx = this._indexForScroll();
+    if(idx !== this._lastDrawn){
+      this._lastDrawn = idx;
+      this._showFrame(idx);
+    }
   }
 
   _onResize(){
