@@ -157,6 +157,11 @@ header, header h1, header p, .content, .content h2, .content p{color:#fff}
 .contact-link svg{width:22px;height:22px;flex:0 0 22px;fill:currentColor}
 .contact-link:hover{transform:translateY(-3px);background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.24)}
 
+/* Floating WhatsApp */
+.whatsapp-float{position:fixed;right:22px;bottom:22px;z-index:15000;display:grid;place-items:center;width:62px;height:62px;border-radius:50%;background:#25d366;color:#fff;text-decoration:none;box-shadow:0 12px 34px rgba(0,0,0,0.45),0 0 0 1px rgba(255,255,255,0.18);transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
+.whatsapp-float svg{width:34px;height:34px;fill:currentColor}
+.whatsapp-float:hover{transform:translateY(-4px) scale(1.03);background:#20bd5a;box-shadow:0 16px 42px rgba(0,0,0,0.52),0 0 0 1px rgba(255,255,255,0.22)}
+
 /* Image lightbox */
 .image-lightbox{position:fixed;inset:0;z-index:20000;display:none;align-items:center;justify-content:center;padding:88px 20px 28px;background:rgba(0,0,0,0.88);backdrop-filter:blur(8px)}
 .image-lightbox.show{display:flex}
@@ -217,6 +222,8 @@ header, header h1, header p, .content, .content h2, .content p{color:#fff}
 	.service-grid{grid-template-columns:1fr}
 	.process-steps{grid-template-columns:1fr}
 	.contact-links{grid-template-columns:1fr}
+	.whatsapp-float{right:16px;bottom:16px;width:56px;height:56px}
+	.whatsapp-float svg{width:31px;height:31px}
 	.image-lightbox{padding:82px 12px 20px}
 	.lightbox-toolbar{top:18px;max-width:calc(100vw - 24px);overflow:auto}
 	.lightbox-btn{min-width:40px}
